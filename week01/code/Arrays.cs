@@ -8,12 +8,28 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan for MultiplesOf:
+    // 1. Create a new double array of size 'length' to store the multiples.
+    // 2. Use a for loop to iterate from 1 to 'length' (inclusive).
+    // 3. For each iteration i, calculate the multiple as number * i.
+    // 4. Store the multiple in the array at index i-1.
+    // 5. If length is 0, return an empty array.
+    // 6. Return the array.
 
-        return []; // replace this return statement with your own
+    // Create array of size 'length'
+    double[] result = new double[length];
+
+    // Handle edge case: if length is 0, return empty array
+    if (length == 0)
+        return result;
+
+    // Loop to calculate multiples
+    for (int i = 1; i <= length; i++)
+    {
+        result[i - 1] = number * i;
+    }
+
+    return result;
     }
 
     /// <summary>
@@ -25,9 +41,30 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan for RotateListRight:
+    // 1. Check if amount equals data.Count; if so, no rotation needed, return immediately.
+    // 2. Normalize amount using amount % data.Count to handle large amounts (though not needed as amount is in [1, data.Count]).
+    // 3. Use list slicing to split the list:
+    //    a. Get the last 'amount' elements (data.GetRange(data.Count - amount, amount)) to move to the front.
+    //    b. Get the first 'data.Count - amount' elements (data.GetRange(0, data.Count - amount)) to move to the end.
+    //    c. Create a new list by concatenating: last 'amount' elements + first 'data.Count - amount' elements.
+    //    d. Update the original data list to match the new rotated list.
+    // 4. Handle edge cases: If data is empty, return immediately (no action needed).
+
+    // If list is empty or amount equals data.Count, no rotation needed
+    if (data.Count == 0 || amount == data.Count)
+        return;
+
+    // Normalize amount (optional, as amount is guaranteed in [1, data.Count])
+    amount = amount % data.Count;
+
+    // Get the two parts of the list
+    List<int> lastPart = data.GetRange(data.Count - amount, amount); // Last 'amount' elements
+    List<int> firstPart = data.GetRange(0, data.Count - amount);     // First 'data.Count - amount' elements
+
+    // Clear the original list and add parts in rotated order
+    data.Clear();
+    data.AddRange(lastPart);
+    data.AddRange(firstPart);
     }
 }
