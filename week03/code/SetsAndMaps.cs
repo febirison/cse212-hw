@@ -19,28 +19,29 @@ public static class SetsAndMaps
     /// that there were no duplicates) and therefore should not be returned.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
+    
     public static string[] FindPairs(string[] words)
-{
-    var seenWords = new HashSet<string>();
-    var pairs = new List<string>();
-
-    foreach (string word in words)
     {
-        string reverse = new string(new[] { word[1], word[0] });
-        if (word == reverse) continue;
+        var seenWords = new HashSet<string>();
+        var pairs = new List<string>();
 
-        if (seenWords.Contains(reverse))
+        foreach (string word in words)
         {
-            string pair = string.Compare(word, reverse, StringComparison.Ordinal) < 0
-                ? $"{word} & {reverse}"
-                : $"{reverse} & {word}";
-            pairs.Add(pair);
-        }
-        seenWords.Add(word);
-    }
+            string reverse = new string(new[] { word[1], word[0] });
+            if (word == reverse) continue;
 
-    return pairs.ToArray();
-}
+            if (seenWords.Contains(reverse))
+            {
+                string pair = string.Compare(word, reverse, StringComparison.Ordinal) < 0
+                    ? $"{word} & {reverse}"
+                    : $"{reverse} & {word}";
+                pairs.Add(pair);
+            }
+            seenWords.Add(word);
+        }
+
+        return pairs.ToArray();
+    }
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
