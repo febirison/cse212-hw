@@ -20,26 +20,27 @@ public static class SetsAndMaps
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
+{
+    var seenWords = new HashSet<string>();
+    var pairs = new List<string>();
+
+    foreach (string word in words)
     {
-         var result = new List<string>();
-        var wordSet = new HashSet<string>(words);
-        var visited = new HashSet<string>();
+        string reverse = new string(new[] { word[1], word[0] });
+        if (word == reverse) continue;
 
-        foreach (var word in words)
+        if (seenWords.Contains(reverse))
         {
-            var reversed = new string(word.Reverse().ToArray());
-            if (word == reversed) continue; // skip same char like "aa"
-
-            if (wordSet.Contains(reversed) && !visited.Contains(word) && !visited.Contains(reversed))
-            {
-                result.Add($"{word} & {reversed}");
-                visited.Add(word);
-                visited.Add(reversed);
-            }
+            string pair = string.Compare(word, reverse, StringComparison.Ordinal) < 0
+                ? $"{word} & {reverse}"
+                : $"{reverse} & {word}";
+            pairs.Add(pair);
         }
-
-        return result.ToArray();
+        seenWords.Add(word);
     }
+
+    return pairs.ToArray();
+}
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
@@ -88,7 +89,7 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        
+
         string clean1 = new string(word1.Where(char.IsLetterOrDigit).ToArray()).ToLower();
         string clean2 = new string(word2.Where(char.IsLetterOrDigit).ToArray()).ToLower();
 
